@@ -4,6 +4,8 @@ import {initializeApp} from 'firebase/app';
 
 import {getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, updateDoc} from 'firebase/firestore';
 
+import {getAuth, createUserWithEmailAndPassword, signOut, signInWithEmailAndPassword, onAuthStateChanged} from 'firebase/auth';
+
 // INITIALIZE FIREBASE
 initializeApp(firebaseConfig);
 
@@ -74,7 +76,85 @@ updateButton.addEventListener('click', (e)=>{
 		updateID.value = '';
 	})
 	.catch(err => console.log(err.message));
+
 })
+
+// PART 2 AUTHENTICATION -------------------------------
+
+// INITIALIZING THE AUTHENTICATION SERVICE
+const authService = getAuth();
+
+// SIGNING UP USERS
+const email = document.querySelector('.email');
+const password = document.querySelector('.password');
+const signupButton = document.querySelector('.sign-up-button');
+
+const signUpUsers = ()=>{
+   const userEmail = email.value;
+	const userPassword = password.value;
+	createUserWithEmailAndPassword(authService, userEmail, userPassword)
+	.then((cred)=>{
+		console.log('The account has been created successfully');
+		console.log(cred);
+	})
+	.catch(err => console.log(err.message))
+
+}
+
+signupButton.addEventListener('click', (e)=>{
+	e.preventDefault();
+	signUpUsers();
+})
+
+// SIGN OUT USERS
+
+const signOutButton = document.querySelector('.sign-out-button');
+
+const signOutUsers = ()=>{
+	signOut(authService)
+	.then(()=> console.log('You have successfully signed out'))
+	.catch(err => console.log(err.message))
+}
+
+signOutButton.addEventListener('click', (e)=>{
+	e.preventDefault();
+	signOutUsers();
+})
+
+// SIGNING IN USERS
+const signInButton = document.querySelector('.sign-in-button');
+
+const signInUsers = ()=>{
+	const userEmail = email.value;
+	const userPassword = password.value;
+    signInWithEmailAndPassword(authService, userEmail, userPassword)
+	 .then(()=>{
+		console.log('You have successfully logged back in');
+	 })
+	 .catch(err => console.log(err.message))
+}
+
+signInButton.addEventListener('click', (e)=>{
+   e.preventDefault();
+	signInUsers();
+})
+
+// CHECK USERS AUTHENTICATION STATE
+
+const checkUsersStatus = ()=>{
+	const secretContent = document.querySelector('.secret-content')
+	onAuthStateChanged(authService, user =>{
+		if(user){
+			secretContent.style.display = 'block';
+		}else{
+			secretContent.style.display = 'none';
+		}
+	})
+}
+
+checkUsersStatus();
+
+
 
 
 

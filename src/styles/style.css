@@ -15,7 +15,7 @@ h1 {
    flex-basis: 10%;
 }
 
-.add-trainers-form, .delete-trainer-form, .update-trainer-form {
+.add-trainers-form, .delete-trainer-form, .update-trainer-form, .auth-form {
 	flex-basis: 20%;
 	display: flex;
 	flex-direction: column;
@@ -26,7 +26,16 @@ h1 {
 	margin-top: 1rem;
 }
 
-.add-trainers-button, .delete-trainer-button, .update-trainer-button {
-   width: 12rem;
+.auth-form{
+	margin-top: 1rem;
 }
 
+.add-trainers-button, .delete-trainer-button, .update-trainer-button, .sign-up-button, .sign-out-button, .sign-in-button {
+   width: 12rem;
+	padding: 0.5rem;
+	background-color: rgb(154, 235, 235);
+}
+
+.secret-content {
+	display: none;
+}
